@@ -17,8 +17,10 @@
  *   Yousuke Kumakura
  *   Vadim Voituk
  *   Antcs
+ *   James Collins (nomadjimbob)
  *
- * Version Rev. 1.9.1 (291)
+ * Based on Version Rev. 1.9.1 (291)
+ * Version 1.9.1.1
  */
 
 define('HDOM_TYPE_ELEMENT', 1);
@@ -1392,7 +1394,9 @@ class simple_html_dom
 	public $callback = null;
 	public $lowercase = false;
 	public $original_size;
-	public $size;
+    public $size;
+    
+    public $stripRNAttrValues = true;       // added option to ignore RN in attr values - nomadjimbob
 
 	protected $pos;
 	protected $doc;
@@ -2110,9 +2114,13 @@ class simple_html_dom
 		$value = $this->restore_noise($value);
 
 		// PaperG: Attributes should not have \r or \n in them, that counts as
-		// html whitespace.
-		$value = str_replace("\r", '', $value);
-		$value = str_replace("\n", '', $value);
+        // html whitespace.
+
+        // Added $stripRNAttrValues option for DokuWiki - nomadjimbob
+        if($this->stripRNAttrValues) {
+            $value = str_replace("\r", '', $value);
+            $value = str_replace("\n", '', $value);
+        }
 
 		// PaperG: If this is a "class" selector, lets get rid of the preceeding
 		// and trailing space since some people leave it in the multi class case.
