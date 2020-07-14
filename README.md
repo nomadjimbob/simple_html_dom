@@ -8,8 +8,8 @@ Modified version of simple_html_dom (https://sourceforge.net/projects/simplehtml
 
 To load DokuWiki content correctly:
 
-`
+```
 $html = new \simple_html_dom;
 $html->stripRNAttrValues = false;
 $html->load($content, true, false);
-`
+```
